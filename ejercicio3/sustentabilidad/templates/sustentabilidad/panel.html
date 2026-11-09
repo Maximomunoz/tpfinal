@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ titulo }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 2rem; background: #f3f8f3; color: #1b3a1b; }
+        table { border-collapse: collapse; margin-top: 1rem; }
+        th, td { border: 1px solid #8bb88b; padding: .5rem 1rem; text-align: left; }
+        th { background: #2e7d32; color: #fff; }
+    </style>
+</head>
+<body>
+    <h1>{{ titulo }}</h1>
+    <p><strong>Total global de emisiones:</strong> {{ total_emisiones|floatformat:2 }} kg CO₂</p>
+    <p><strong>Planta de mayor consumo:</strong>
+        {% if planta_mayor_consumo %}{{ planta_mayor_consumo }} ({{ consumo_mayor_kwh|floatformat:2 }} kWh){% else %}Sin datos{% endif %}
+    </p>
+
+    <table>
+        <thead>
+            <tr><th>Planta</th><th>Consumo (kWh)</th><th>Emisiones (kg CO₂)</th></tr>
+        </thead>
+        <tbody>
+        {% for p in detalle_plantas %}
+            <tr>
+                <td>{{ p.planta }}</td>
+                <td>{{ p.consumo_kwh|floatformat:2 }}</td>
+                <td>{{ p.emisiones|floatformat:2 }}</td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="3">Sin registros</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
+
